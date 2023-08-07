@@ -13,5 +13,6 @@
 @include("component.homeComp")
 @include("component.about")
 @include("component.footer")
+
 </body>
 </html>
