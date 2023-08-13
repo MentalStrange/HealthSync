@@ -1,0 +1,32 @@
+1- doc
+2-digrams (1- context, 2- dfd , 3- state, 4- use case, 5- sequence, 6- mapping, 7- erd).
+3- screens
+4- database
+5- code
+
+
+code--> {
+    1- sign up
+    2- sign in
+    3- How to treat with api
+    4- how to take data from database and pass it to api
+    5- lib-> charts.
+}
+
+
+database --> {
+    1- users table
+    2-
+}
+
+
+
+digrams--> yasmin
+
+sign in , signup , active navbar -> enas
+
+database -->  salw
+
+
+
+

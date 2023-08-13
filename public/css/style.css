@@ -5,3 +5,8 @@
 @import "tailwindcss/utilities";
 
 /* Add your custom styles below or in separate files */
+
+/* -------------------- Sign up Page --------------------- */
+.error{
+    color: red;
+}
