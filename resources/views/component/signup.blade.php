@@ -13,6 +13,11 @@
 <body class="bg-gray-200">
     @include('component.navbar')
     <div class=" px-5 ">
+        @if (session('error'))
+            <p class="error">
+                {{ session('error') }}
+            </p>
+        @endif
         <form class="container max-w-screen-lg mx-auto" action="/signup" method="post">
             @csrf
             <div class=" gap-6 mb-6 md:grid-cols-2 py-10">
@@ -40,10 +45,10 @@
                 <div>
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
                         number</label>
-                    <input name="tel" type="tel" id="phone"
+                    <input name="phone" type="tel" id="phone"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="123-45-678" required>
-                    @error('tel')
+                    @error('phone')
                         <p class="error">{{ $message }} </p>
                     @enderror
                 </div>
