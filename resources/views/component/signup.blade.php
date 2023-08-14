@@ -13,11 +13,6 @@
 <body class="bg-gray-200">
     @include('component.navbar')
     <div class=" px-5 ">
-        @if (session('error'))
-            <p class="error">
-                {{ session('error') }}
-            </p>
-        @endif
         <form class="container max-w-screen-lg mx-auto" action="/signup" method="post">
             @csrf
             <div class=" gap-6 mb-3 md:grid-cols-2">
@@ -27,10 +22,7 @@
                         name</label>
                     <input name="first_name" type="text" id="first_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="John" required  value="{{ old('first_name') }}">
-                    @error('first_name')
-                        <p class="error">{{ $message }} </p>
-                    @enderror
+                        placeholder="John" required value="{{ old('first_name') }}">
                 </div>
                 <div>
                     <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
@@ -38,9 +30,6 @@
                     <input name="last_name" type="text" id="last_name"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="Doe" required value="{{ old('last_name') }}">
-                    @error('last_name')
-                        <p class="error">{{ $message }} </p>
-                    @enderror
                 </div>
                 <div>
                     <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
@@ -48,9 +37,6 @@
                     <input name="phone" type="tel" id="phone"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="123-45-678" required value="{{ old('phone') }}">
-                    @error('phone')
-                        <p class="error">{{ $message }} </p>
-                    @enderror
                 </div>
                 <div class="mb-6">
                     <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email
@@ -58,9 +44,6 @@
                     <input name="email" type="email" id="email"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="john.doe@company.com" required value="{{ old('email') }}">
-                    @error('email')
-                        <p class="error">{{ $message }} </p>
-                    @enderror
                 </div>
                 <div class="mb-6">
                     <label for="password"
@@ -68,9 +51,6 @@
                     <input name="password" type="password" id="password"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="•••••••••" required>
-                    @error('password')
-                        <p class="error">{{ $message }} </p>
-                    @enderror
                 </div>
                 <div class="mb-6">
                     <label for="confirm_password"
@@ -79,12 +59,12 @@
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         placeholder="•••••••••" required>
                 </div>
-
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload
                     file</label>
                 <input
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    aria-describedby="file_input_help" id="file_input" type="file" name="image" value="{{old('image')}}">
+                    aria-describedby="file_input_help" id="file_input" type="file" name="image"
+                    value="{{ old('image') }}">
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id="file_input_help">SVG, PNG, JPG or GIF (MAX.
                     800x400px).</p>
                 <div class="flex items-start">
@@ -105,5 +85,5 @@
 
 
 </body>
-
+@include('sweetalert::alert')
 </html>

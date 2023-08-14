@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\patientController;
 use Illuminate\Support\Facades\Route;
-// guests
+// for all users
 Route::get('/', [patientController::class, 'home']);
+
+// guests
 Route::group(['middleware' => 'guests'], function () {
     Route::get('/signup', [patientController::class, 'showSignUp']);
     Route::post('/signup', [patientController::class, 'signUp']);
@@ -14,4 +16,5 @@ Route::group(['middleware' => 'guests'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [patientController::class, 'dashbord']);
     Route::get('/logout', [patientController::class, 'logout']);
+    Route::get('/userData', [patientController::class, 'userData']);
 });

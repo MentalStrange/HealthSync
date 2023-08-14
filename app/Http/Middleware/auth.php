@@ -18,7 +18,7 @@ class auth
         if (session('loggedIn')) {
             return $next($request);
         } else {
-            return redirect('/login')->with(['errors' => "you are not logged In"]);
+            return redirect('/login')->with(['error' => "you are not logged In"]);
         }
     }
 }

@@ -25,6 +25,12 @@ class patientController extends Controller
     function showLogin(){
         return view('component.login');
     }
+    function userData(){
+        return view('component.userData');
+    }
+    // ------------------------------------
+    // sign up function
+    // ------------------------------------
 	function signUp(Request $request)
 	{
 		// validation rules
@@ -35,16 +41,13 @@ class patientController extends Controller
 			'password' => 'required|confirmed|',
 		]);
 		// user data
-
 		$first_name = $request->first_name;
 		$last_name = $request->last_name;
 		$email = $request->email;
 		$phone = $request->phone;
 		$password = Hash::make($request->password);
         $image = $request->image;
-
 		// store user data in database
-
 		DB::insert(
 			'insert into users(first_name, last_name, email , phone, password, image) values(?,?,?,?,?,?)',
 			[
@@ -56,9 +59,7 @@ class patientController extends Controller
                 $image,
 			]
 		);
-
 		// get data from database --> to use it in sessions.
-
 		$userId = DB::getPdo()->lastInsertId();
 		$result = DB::select('select first_name, last_name, email, phone from users where id = ? ', [$userId]);
 		$user = $result[0];
@@ -75,8 +76,9 @@ class patientController extends Controller
 		]);
 		return redirect('/dashboard')->withSuccess('You Register Succussfully');
 	}
-
+    // ---------------------------------------
     // login function
+    // ---------------------------------------
     function login(Request $request){
         $email = $request->email ;
         $password = $request->password ;
@@ -106,8 +108,9 @@ class patientController extends Controller
 
         return dd($request->all());
     }
-
+    // ---------------------------------------------
     // logout function
+    // ---------------------------------------------
     function logout(){
         session()->invalidate();
         return redirect('/');
