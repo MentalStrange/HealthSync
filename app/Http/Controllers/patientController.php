@@ -6,59 +6,67 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+
+
 class patientController extends Controller
 {
-    function home()
-    {
-        return view('pages.home');
-    }
-    function dashbord()
-    {
-        return view('pages.dashboard');
-    }
-    function showSignUp()
-    {
-        return view('component.signup');
-    }
-    function signUp(Request $request)
-    {
-        // Validation rules
-        $request->validate([
-            'first_name' => 'required|max:100',
-            'last_name' => 'required|max:100',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-            // Add 'phone' validation if needed
-        ]);
+	function home()
+	{
+		return view('pages.home');
+	}
+	function dashbord()
+	{
+		return view('pages.dashboard');
+	}
+	function showSignUp()
+	{
+		return view('component.signup');
+	}
+	function signUp(Request $request)
+	{
+		// validation rules
+		$request->validate([
+			'first_name' => 'required|max:100',
+			'last_name' => 'required|max:100',
+			'email' => 'required|email|unique:users',
+			'password' => 'required|confirmed|',
+		]);
+		// user data
 
-        // User data
-        $first_name = $request->first_name;
-        $last_name = $request->last_name;
-        $email = $request->email;
-        $phone = $request->phone; // Make sure you have 'phone' field in your form
-        $password = Hash::make($request->password);
+		$first_name = $request->first_name;
+		$last_name = $request->last_name;
+		$email = $request->email;
+		$phone = $request->phone;
+		$password = Hash::make($request->password);
 
-        // Store user data in the database
-        $userId = DB::table('users')->insertGetId([
-            'first_name' => $first_name,
-            'last_name' => $last_name,
-            'email' => $email,
-            'phone' => $phone, // Make sure you have 'phone' column in your users table
-            'password' => $password,
-        ]);
+		// store user data in database
 
-        // Using Sessions
-        $user = DB::table('users')->where('id', $userId)->first();
-        if ($user == null) {
-            return back()->with(['error' => 'Unexpected error happened during registration'])->withInput();
-        }
+		DB::insert(
+			'insert into users(first_name, last_name, email , phone, password) values(?,?,?,?,?)',
+			[
+				$first_name,
+				$last_name,
+				$email,
+				$phone,
+				$password
+			]
+		);
 
-        session([
-            'loggedIn' => true,
-            'userId' => $userId,
-        ]);
+		// get data from database --> to use it in sessions.
 
-        return redirect('/dashboard');
-    }
+		$userId = DB::getPdo()->lastInsertId();
+		$result = DB::select('select first_name, last_name, email, phone from users where id = ? ', [$userId]);
+		$user = $result[0];
 
+		// using Sessions
+		if ($user == null) {
+            return back()->with('errors', $user->messages()->all()[0])->withInput();
+		}
+		session([
+			'loggedIn' => true,
+			'userId' => $userId,
+			'user' => $user,
+		]);
+		return redirect('/dashboard')->withSuccess('You Register Succussfully');
+	}
 }

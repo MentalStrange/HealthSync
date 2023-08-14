@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    @include('sweetalert::alert')
     @include('component.navbar')
     @include('component.homeComp')
     @include('component.about')
