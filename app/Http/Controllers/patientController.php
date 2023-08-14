@@ -22,6 +22,9 @@ class patientController extends Controller
 	{
 		return view('component.signup');
 	}
+    function showLogin(){
+        return view('component.login');
+    }
 	function signUp(Request $request)
 	{
 		// validation rules
@@ -38,17 +41,19 @@ class patientController extends Controller
 		$email = $request->email;
 		$phone = $request->phone;
 		$password = Hash::make($request->password);
+        $image = $request->image;
 
 		// store user data in database
 
 		DB::insert(
-			'insert into users(first_name, last_name, email , phone, password) values(?,?,?,?,?)',
+			'insert into users(first_name, last_name, email , phone, password, image) values(?,?,?,?,?,?)',
 			[
 				$first_name,
 				$last_name,
 				$email,
 				$phone,
-				$password
+				$password,
+                $image,
 			]
 		);
 
@@ -62,6 +67,7 @@ class patientController extends Controller
 		if ($user == null) {
             return back()->with('errors', $user->messages()->all()[0])->withInput();
 		}
+        session()->regenerate();
 		session([
 			'loggedIn' => true,
 			'userId' => $userId,
@@ -69,4 +75,41 @@ class patientController extends Controller
 		]);
 		return redirect('/dashboard')->withSuccess('You Register Succussfully');
 	}
+
+    // login function
+    function login(Request $request){
+        $email = $request->email ;
+        $password = $request->password ;
+
+        $request->validate([
+            'email' => 'required|email',
+            'password'=> 'required',
+        ]);
+        // search for the user.
+        $result = DB::select('select * from users where email = ?',[$email]);
+        if(!$result){
+            return back()->with(['error'=>'this email is not found'])->withInput();
+        }else{
+            $user = $result[0];
+            if(!Hash::check($password,$user->password)){
+                return back()->with(['error'=>'Inncorrect Password']);
+            }else{
+                session()->regenerate();
+                session([
+                    'loggedIn' => true,
+                    'userId' => $user->id,
+                    'user' => $user,
+                ]);
+                return redirect('/dashboard')->withSuccess('login in');
+            }
+        }
+
+        return dd($request->all());
+    }
+
+    // logout function
+    function logout(){
+        session()->invalidate();
+        return redirect('/');
+    }
 }
