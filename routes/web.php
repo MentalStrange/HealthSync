@@ -3,8 +3,8 @@
 use App\Http\Controllers\patientController;
 use Illuminate\Support\Facades\Route;
 // guests
+Route::get('/', [patientController::class, 'home']);
 Route::group(['middleware' => 'guests'], function () {
-    Route::get('/', [patientController::class, 'home']);
     Route::get('/signup', [patientController::class, 'showSignUp']);
     Route::post('/signup', [patientController::class, 'signUp']);
     Route::get('/login', [patientController::class, 'showLogin']);

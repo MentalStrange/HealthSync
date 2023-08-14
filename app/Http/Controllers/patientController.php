@@ -65,7 +65,7 @@ class patientController extends Controller
 
 		// using Sessions
 		if ($user == null) {
-            return back()->with('errors', $user->messages()->all()[0])->withInput();
+            return back()->with(['error'=>'Problem in your registiration'])->withInput();
 		}
         session()->regenerate();
 		session([
@@ -100,7 +100,7 @@ class patientController extends Controller
                     'userId' => $user->id,
                     'user' => $user,
                 ]);
-                return redirect('/dashboard')->withSuccess('login in');
+                return redirect('/dashboard')->withSuccess('You are Loged In Now..!');
             }
         }
 

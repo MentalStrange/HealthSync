@@ -11,7 +11,7 @@
                 </svg>
             </a>
             <a href="#" class="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
-                Learn mor
+                Learn more
             </a>
         </div>
     </div>
